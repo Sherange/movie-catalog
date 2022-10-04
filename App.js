@@ -1,9 +1,13 @@
 import React from 'react';
-import MainScreen from './src/screens/MainScreen';
-import TitleScreen from './src/screens/TitleScreen';
+import {NavigationContainer} from '@react-navigation/native';
+import MainStackNavigation from './src/navigation/MainStack';
 
 const App = () => {
-  return <TitleScreen />;
+  return (
+    <NavigationContainer>
+      <MainStackNavigation />
+    </NavigationContainer>
+  );
 };
 
 export default App;

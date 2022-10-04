@@ -17,7 +17,7 @@ import {
   secondryColor,
 } from '../constants/theme';
 
-const MainScreen = () => {
+const MainScreen = ({navigation}) => {
   const [tabIndex, setTabIndex] = useState(0);
 
   const isDarkMode = useColorScheme() === 'dark';
@@ -110,7 +110,12 @@ const MainScreen = () => {
   ];
 
   const renderItem = ({item}) => {
-    return <MovieCard item={item} />;
+    return (
+      <MovieCard
+        item={item}
+        onPress={() => navigation.navigate('TitleScreen')}
+      />
+    );
   };
 
   return (

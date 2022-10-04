@@ -4,9 +4,9 @@ import {Image, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import {AirbnbRating} from '@rneui/themed';
 import {primaryTextColor, secondryTextColor} from '../constants/theme';
 
-const MovieCard = ({item}) => {
+const MovieCard = ({item, onPress}) => {
   return (
-    <TouchableOpacity style={styles.movieCardStyle} onPress={() => {}}>
+    <TouchableOpacity style={styles.movieCardStyle} onPress={onPress}>
       <Image style={styles.movieCardThumbnail} source={{uri: item.image}} />
       <AirbnbRating
         count={5}
@@ -33,6 +33,7 @@ MovieCard.propTypes = {
     year: PropTypes.string,
     imDbRating: PropTypes.string,
   }),
+  onPress: PropTypes.func.isRequired,
 };
 
 const styles = StyleSheet.create({
