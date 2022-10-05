@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   SafeAreaView,
   StatusBar,
@@ -9,6 +9,7 @@ import {
   StyleSheet,
 } from 'react-native';
 import {Tab, TabView} from '@rneui/themed';
+import {useSelector} from 'react-redux';
 
 import MovieCard from '../components/MovieCard';
 import {
@@ -16,98 +17,17 @@ import {
   primaryTextColor,
   secondryColor,
 } from '../constants/theme';
+import useMovie from '../hooks/useMovie';
 
 const MainScreen = ({navigation}) => {
   const [tabIndex, setTabIndex] = useState(0);
 
   const isDarkMode = useColorScheme() === 'dark';
 
-  const items = [
-    {
-      id: 'tt1655389',
-      rank: '1',
-      rankUpDown: '+6',
-      title: 'Blonde',
-      fullTitle: 'Blonde (2022)',
-      year: '2022',
-      image:
-        'https://m.media-amazon.com/images/M/MV5BNDk2YTA1MGYtMGNjMi00YTJlLWI1YjItMjBjOGJlZGIwZmYzXkEyXkFqcGdeQXVyODA0MjgyNzM@._V1_Ratio0.6716_AL_.jpg',
-      crew: 'Andrew Dominik (dir.), Ana de Armas, Lily Fisher',
-      imDbRating: '5.6',
-      imDbRatingCount: '24907',
-    },
-    {
-      id: 'tt10731256',
-      rank: '2',
-      rankUpDown: '-1',
-      title: "Don't Worry Darling",
-      fullTitle: "Don't Worry Darling (2022)",
-      year: '2022',
-      image:
-        'https://m.media-amazon.com/images/M/MV5BMzFkMWUzM2ItZWFjMi00NDY0LTk2MDMtZDhkMDE2MjRlYmZlXkEyXkFqcGdeQXVyNTAzNzgwNTg@._V1_Ratio0.6716_AL_.jpg',
-      crew: 'Olivia Wilde (dir.), Florence Pugh, Harry Styles',
-      imDbRating: '6.2',
-      imDbRatingCount: '23573',
-    },
-    {
-      id: 'tt15474916',
-      rank: '7',
-      rankUpDown: '+29',
-      title: 'Smile',
-      fullTitle: 'Smile (2022)',
-      year: '2022',
-      image:
-        'https://m.media-amazon.com/images/M/MV5BODJkNDY0MDgtYzFmYy00YzMyLThiNGUtOGI3ZjcyNjk0MWFiXkEyXkFqcGdeQXVyODc0OTEyNDU@._V1_Ratio0.6716_AL_.jpg',
-      crew: 'Parker Finn (dir.), Sosie Bacon, Jessie T. Usher',
-      imDbRating: '7.0',
-      imDbRatingCount: '8098',
-    },
-  ];
+  const {fetchPopularMovies, fetchUpComingMovies} = useMovie();
 
-  const comingSoon = [
-    {
-      id: 'tt10751150',
-      title: 'Pardoned by Grace',
-      fullTitle: 'Pardoned by Grace (2022)',
-      year: '2022',
-      releaseState: '04 October 2022',
-      image: 'https://imdb-api.com/images/128x176/nopicture.jpg',
-      runtimeMins: null,
-      runtimeStr: null,
-      plot: null,
-      contentRating: null,
-      imDbRating: null,
-      imDbRatingCount: null,
-      metacriticRating: null,
-      genres: null,
-      genreList: [],
-      directors: null,
-      directorList: [],
-      stars: null,
-      starList: [],
-    },
-    {
-      id: 'tt19770238',
-      title: 'Aftersun',
-      fullTitle: 'Aftersun (2022)',
-      year: '2022',
-      releaseState: '05 October 2022',
-      image: 'https://imdb-api.com/images/128x176/nopicture.jpg',
-      runtimeMins: null,
-      runtimeStr: null,
-      plot: null,
-      contentRating: null,
-      imDbRating: null,
-      imDbRatingCount: null,
-      metacriticRating: null,
-      genres: null,
-      genreList: [],
-      directors: null,
-      directorList: [],
-      stars: null,
-      starList: [],
-    },
-  ];
+  //get state from redux-store
+  const {popularList, upComingList} = useSelector(state => state.movies);
 
   const renderItem = ({item}) => {
     return (
@@ -118,6 +38,11 @@ const MainScreen = ({navigation}) => {
     );
   };
 
+  useEffect(() => {
+    fetchPopularMovies();
+    fetchUpComingMovies();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <SafeAreaView style={styles.backgroundStyle}>
       <StatusBar
@@ -141,7 +66,7 @@ const MainScreen = ({navigation}) => {
         <TabView value={tabIndex} onChange={setTabIndex}>
           <TabView.Item style={styles.tabViewContainerStyle}>
             <FlatList
-              data={items}
+              data={popularList}
               renderItem={renderItem}
               keyExtractor={item => item.id}
               numColumns={2}
@@ -150,7 +75,7 @@ const MainScreen = ({navigation}) => {
           </TabView.Item>
           <TabView.Item style={styles.tabViewContainerStyle}>
             <FlatList
-              data={comingSoon}
+              data={upComingList}
               renderItem={renderItem}
               keyExtractor={item => item.id}
               numColumns={2}

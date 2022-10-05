@@ -1,13 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Image, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {Image, Text, StyleSheet, View, TouchableOpacity} from 'react-native';
 import {AirbnbRating} from '@rneui/themed';
 import {primaryTextColor, secondryTextColor} from '../constants/theme';
 
 const MovieCard = ({item, onPress}) => {
   return (
-    <TouchableOpacity style={styles.movieCardStyle} onPress={onPress}>
-      <Image style={styles.movieCardThumbnail} source={{uri: item.image}} />
+    <View style={styles.movieCardStyle}>
+      <TouchableOpacity onPress={onPress}>
+        <Image style={styles.movieCardThumbnail} source={{uri: item.image}} />
+      </TouchableOpacity>
+
       <AirbnbRating
         count={5}
         defaultRating={parseInt(item.imDbRating, 10) / 2}
@@ -21,7 +24,7 @@ const MovieCard = ({item, onPress}) => {
       <Text style={styles.movieSubtitleStyle}>
         {item.year} | {item.imDbRating}
       </Text>
-    </TouchableOpacity>
+    </View>
   );
 };
 
