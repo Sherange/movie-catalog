@@ -20,8 +20,8 @@ const SearchStackNavigation = () => {
         name="TitleScreen"
         component={TitleScreen}
         options={{
-          headerShown: false,
-          headerTransparent: false,
+          headerShown: true,
+          headerTransparent: true,
         }}
       />
     </SearchStack.Navigator>

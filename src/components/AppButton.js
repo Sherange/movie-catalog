@@ -14,6 +14,7 @@ const AppButton = () => {
 const styles = StyleSheet.create({
   searchButtonStyle: {
     marginHorizontal: 16,
+    marginVertical: 16,
   },
 });
 

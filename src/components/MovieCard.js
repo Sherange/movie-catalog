@@ -9,7 +9,7 @@ import {
   Dimensions,
 } from 'react-native';
 import {AirbnbRating} from '@rneui/themed';
-import {primaryTextColor, secondryTextColor} from '../constants/theme';
+import {primaryTextColor, secondryColor} from '../constants/theme';
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
   movieSubtitleStyle: {
     fontSize: 12,
     fontWeight: '600',
-    color: secondryTextColor,
+    color: secondryColor,
     marginTop: 4,
   },
   ratingContainerStyle: {
