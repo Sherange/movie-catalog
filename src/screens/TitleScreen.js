@@ -6,11 +6,23 @@ import {
   Text,
   useColorScheme,
   StyleSheet,
+  ImageBackground,
+  Image,
+  Dimensions,
 } from 'react-native';
 import {useSelector} from 'react-redux';
+import {AirbnbRating} from '@rneui/themed';
 
-import {backgroundColor, primaryTextColor} from '../constants/theme';
+import {
+  backgroundColor,
+  primaryTextColor,
+  secondryColor,
+  secondryTextColor,
+} from '../constants/theme';
 import useMovie from '../hooks/useMovie';
+
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 const TitleScreen = ({route}) => {
   const {params} = route;
@@ -21,8 +33,6 @@ const TitleScreen = ({route}) => {
 
   //get state from redux-store
   const {movieTitle} = useSelector(state => state.movies);
-
-  console.log('movieTitle', movieTitle);
 
   useEffect(() => {
     fetchMovieTitle(params.id);
@@ -35,8 +45,31 @@ const TitleScreen = ({route}) => {
         barStyle={!isDarkMode ? 'light-content' : 'dark-content'}
         backgroundColor={styles.backgroundStyle.backgroundColor}
       />
-      <View style={styles.titleScreenContainer}>
-        <Text style={styles.titeStyle}>Title Screen</Text>
+      <ImageBackground
+        style={styles.coverImage}
+        source={{uri: movieTitle.image}}
+        resizeMode={'cover'}
+      />
+      <View style={styles.thumbnailContainer}>
+        <Image style={styles.thumbnailImage} source={{uri: movieTitle.image}} />
+        <View style={styles.titleScreenContainer}>
+          <Text style={styles.titeStyle}>{movieTitle.fullTitle}</Text>
+          <Text style={styles.movieDurationStyle}>{movieTitle.runtimeStr}</Text>
+          <AirbnbRating
+            count={5}
+            defaultRating={parseInt(movieTitle.imDbRating, 10) / 2}
+            isDisabled={true}
+            reviews={[]}
+            showRating={false}
+            size={14}
+            ratingContainerStyle={styles.ratingContainerStyle}
+          />
+        </View>
+      </View>
+      <View style={styles.contentContainer}>
+        <Text style={styles.subTitleStyle}>Synopsis</Text>
+        <Text style={styles.captionStyle}>{movieTitle.plot}</Text>
+        <Text style={styles.subTitleStyle}>Cast & Crew</Text>
       </View>
     </SafeAreaView>
   );
@@ -49,18 +82,54 @@ const styles = StyleSheet.create({
   },
   titleScreenContainer: {
     flex: 1,
-    // justifyContent: 'center',
-    // alignItems: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
     backgroundColor: backgroundColor,
     marginHorizontal: 16,
     marginVertical: 16,
   },
   titeStyle: {
-    fontSize: 18,
+    fontSize: 24,
     fontWeight: '600',
-    textAlign: 'left',
     color: primaryTextColor,
     marginVertical: 8,
+  },
+  subTitleStyle: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: primaryTextColor,
+    marginVertical: 16,
+  },
+  captionStyle: {
+    fontSize: 14,
+    color: secondryTextColor,
+    lineHeight: 24,
+  },
+  movieDurationStyle: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: secondryColor,
+    marginVertical: 8,
+  },
+  coverImage: {
+    height: windowHeight * 0.3,
+    width: windowWidth,
+    opacity: 0.2,
+  },
+  thumbnailContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: windowHeight * -0.15,
+    marginHorizontal: 20,
+  },
+  thumbnailImage: {
+    height: 200,
+    width: 150,
+  },
+  contentContainer: {
+    flex: 1,
+    marginHorizontal: 16,
   },
 });
 

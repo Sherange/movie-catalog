@@ -18,10 +18,10 @@ import useMovie from '../hooks/useMovie';
 const MainScreen = ({navigation}) => {
   const isDarkMode = useColorScheme() === 'dark';
 
-  const {fetchPopularMovies, fetchUpComingMovies} = useMovie();
+  const {fetchPopularMovies} = useMovie();
 
   //get state from redux-store
-  const {popularList, upComingList} = useSelector(state => state.movies);
+  const {popularList} = useSelector(state => state.movies);
 
   const renderItem = ({item}) => {
     return (
@@ -34,7 +34,6 @@ const MainScreen = ({navigation}) => {
 
   useEffect(() => {
     fetchPopularMovies();
-    fetchUpComingMovies();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -66,7 +65,6 @@ const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
     justifyContent: 'center',
-    // alignItems: 'center',
     backgroundColor: backgroundColor,
     marginHorizontal: 16,
     marginVertical: 16,
