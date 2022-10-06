@@ -9,6 +9,7 @@ import {
   ImageBackground,
   Image,
   Dimensions,
+  ScrollView,
 } from 'react-native';
 import {useSelector} from 'react-redux';
 import {AirbnbRating} from '@rneui/themed';
@@ -20,6 +21,7 @@ import {
   secondryTextColor,
 } from '../constants/theme';
 import useMovie from '../hooks/useMovie';
+import CrewCard from '../components/CrewCard';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -45,32 +47,54 @@ const TitleScreen = ({route}) => {
         barStyle={!isDarkMode ? 'light-content' : 'dark-content'}
         backgroundColor={styles.backgroundStyle.backgroundColor}
       />
-      <ImageBackground
-        style={styles.coverImage}
-        source={{uri: movieTitle.image}}
-        resizeMode={'cover'}
-      />
-      <View style={styles.thumbnailContainer}>
-        <Image style={styles.thumbnailImage} source={{uri: movieTitle.image}} />
-        <View style={styles.titleScreenContainer}>
-          <Text style={styles.titeStyle}>{movieTitle.fullTitle}</Text>
-          <Text style={styles.movieDurationStyle}>{movieTitle.runtimeStr}</Text>
-          <AirbnbRating
-            count={5}
-            defaultRating={parseInt(movieTitle.imDbRating, 10) / 2}
-            isDisabled={true}
-            reviews={[]}
-            showRating={false}
-            size={14}
-            ratingContainerStyle={styles.ratingContainerStyle}
+
+      <ScrollView bounces={false}>
+        <ImageBackground
+          style={styles.coverImage}
+          source={{uri: movieTitle.image}}
+          resizeMode={'cover'}
+        />
+        <View style={styles.thumbnailContainer}>
+          <Image
+            style={styles.thumbnailImage}
+            source={{uri: movieTitle.image}}
           />
+          <View style={styles.titleScreenContainer}>
+            <Text style={styles.titeStyle}>{movieTitle.fullTitle}</Text>
+            <Text style={styles.movieDurationStyle}>
+              {movieTitle.runtimeStr}
+            </Text>
+            <AirbnbRating
+              count={5}
+              defaultRating={parseInt(movieTitle.imDbRating, 10) / 2}
+              isDisabled={true}
+              reviews={[]}
+              showRating={false}
+              size={14}
+              ratingContainerStyle={styles.ratingContainerStyle}
+            />
+          </View>
         </View>
-      </View>
-      <View style={styles.contentContainer}>
-        <Text style={styles.subTitleStyle}>Synopsis</Text>
-        <Text style={styles.captionStyle}>{movieTitle.plot}</Text>
-        <Text style={styles.subTitleStyle}>Cast & Crew</Text>
-      </View>
+        <View style={styles.contentContainer}>
+          <Text style={styles.subTitleStyle}>Synopsis</Text>
+          <Text style={styles.captionStyle}>{movieTitle.plot}</Text>
+        </View>
+
+        <View style={styles.crewContainer}>
+          <Text style={styles.subTitleStyle}>Cast & Crew</Text>
+          <ScrollView nestedScrollEnabled>
+            {movieTitle.actorList &&
+              movieTitle.actorList.map((item, id) => (
+                <CrewCard key={id} item={item} />
+              ))}
+          </ScrollView>
+        </View>
+
+        <View style={styles.contentContainer}>
+          <Text style={styles.subTitleStyle}>Synopsis</Text>
+          <Text style={styles.captionStyle}>{movieTitle.plot}</Text>
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -129,6 +153,10 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     flex: 1,
+    marginHorizontal: 16,
+  },
+  crewContainer: {
+    height: 400,
     marginHorizontal: 16,
   },
 });
