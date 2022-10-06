@@ -1,8 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Image, Text, StyleSheet, View, TouchableOpacity} from 'react-native';
+import {
+  Image,
+  Text,
+  StyleSheet,
+  View,
+  TouchableOpacity,
+  Dimensions,
+} from 'react-native';
 import {AirbnbRating} from '@rneui/themed';
 import {primaryTextColor, secondryTextColor} from '../constants/theme';
+
+const windowWidth = Dimensions.get('window').width;
 
 const MovieCard = ({item, onPress}) => {
   return (
@@ -45,11 +54,10 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'flex-start',
     marginTop: 27,
-    // backgroundColor: 'red',
     marginLeft: 8,
   },
   movieCardThumbnail: {
-    width: 170,
+    width: (windowWidth - 48) / 2,
     height: 250,
   },
   movieTitleStyle: {
