@@ -3,6 +3,7 @@ import {createSlice} from '@reduxjs/toolkit';
 const initialState = {
   popularList: [],
   upComingList: [],
+  movieTitle: {},
 };
 
 export const movieSlice = createSlice({
@@ -15,10 +16,14 @@ export const movieSlice = createSlice({
     setUpComingList: (state, action) => {
       state.upComingList = action.payload;
     },
+    setMovieTitle: (state, action) => {
+      state.movieTitle = action.payload;
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const {setPopularList, setUpComingList} = movieSlice.actions;
+export const {setPopularList, setUpComingList, setMovieTitle} =
+  movieSlice.actions;
 
 export default movieSlice.reducer;

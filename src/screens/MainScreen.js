@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {
   SafeAreaView,
   StatusBar,
@@ -8,20 +8,14 @@ import {
   useColorScheme,
   StyleSheet,
 } from 'react-native';
-import {Tab, TabView} from '@rneui/themed';
+
 import {useSelector} from 'react-redux';
 
 import MovieCard from '../components/MovieCard';
-import {
-  backgroundColor,
-  primaryTextColor,
-  secondryColor,
-} from '../constants/theme';
+import {backgroundColor, primaryTextColor} from '../constants/theme';
 import useMovie from '../hooks/useMovie';
 
 const MainScreen = ({navigation}) => {
-  const [tabIndex, setTabIndex] = useState(0);
-
   const isDarkMode = useColorScheme() === 'dark';
 
   const {fetchPopularMovies, fetchUpComingMovies} = useMovie();
@@ -33,7 +27,7 @@ const MainScreen = ({navigation}) => {
     return (
       <MovieCard
         item={item}
-        onPress={() => navigation.navigate('TitleScreen')}
+        onPress={() => navigation.navigate('TitleScreen', {id: item.id})}
       />
     );
   };
@@ -43,6 +37,7 @@ const MainScreen = ({navigation}) => {
     fetchUpComingMovies();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   return (
     <SafeAreaView style={styles.backgroundStyle}>
       <StatusBar
@@ -50,39 +45,14 @@ const MainScreen = ({navigation}) => {
         backgroundColor={styles.backgroundStyle.backgroundColor}
       />
       <View style={styles.mainContainer}>
-        <Tab
-          value={tabIndex}
-          onChange={tab => setTabIndex(tab)}
-          variant="primary"
-          indicatorStyle={{backgroundColor: secondryColor}}>
-          <Tab.Item containerStyle={{backgroundColor: backgroundColor}}>
-            <Text style={styles.titeStyle}>Most Popular Movies</Text>
-          </Tab.Item>
-          <Tab.Item containerStyle={{backgroundColor: backgroundColor}}>
-            <Text style={styles.titeStyle}>Coming Soon</Text>
-          </Tab.Item>
-        </Tab>
-
-        <TabView value={tabIndex} onChange={setTabIndex}>
-          <TabView.Item style={styles.tabViewContainerStyle}>
-            <FlatList
-              data={popularList}
-              renderItem={renderItem}
-              keyExtractor={item => item.id}
-              numColumns={2}
-              // extraData={selectedId}
-            />
-          </TabView.Item>
-          <TabView.Item style={styles.tabViewContainerStyle}>
-            <FlatList
-              data={upComingList}
-              renderItem={renderItem}
-              keyExtractor={item => item.id}
-              numColumns={2}
-              // extraData={selectedId}
-            />
-          </TabView.Item>
-        </TabView>
+        <Text style={styles.titeStyle}>Most Popular Movies</Text>
+        <FlatList
+          data={popularList}
+          renderItem={renderItem}
+          keyExtractor={item => item.id}
+          numColumns={2}
+          // extraData={selectedId}
+        />
       </View>
     </SafeAreaView>
   );
@@ -102,7 +72,7 @@ const styles = StyleSheet.create({
     marginVertical: 16,
   },
   titeStyle: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: '600',
     textAlign: 'left',
     color: primaryTextColor,

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   SafeAreaView,
   StatusBar,
@@ -7,13 +7,28 @@ import {
   useColorScheme,
   StyleSheet,
 } from 'react-native';
+import {useSelector} from 'react-redux';
 
 import {backgroundColor, primaryTextColor} from '../constants/theme';
+import useMovie from '../hooks/useMovie';
 
-const TitleScreen = () => {
+const TitleScreen = ({route}) => {
+  const {params} = route;
+
   const isDarkMode = useColorScheme() === 'dark';
 
-  //
+  const {fetchMovieTitle} = useMovie();
+
+  //get state from redux-store
+  const {movieTitle} = useSelector(state => state.movies);
+
+  console.log('movieTitle', movieTitle);
+
+  useEffect(() => {
+    fetchMovieTitle(params.id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <SafeAreaView style={styles.backgroundStyle}>
       <StatusBar

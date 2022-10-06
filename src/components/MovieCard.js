@@ -31,7 +31,7 @@ const MovieCard = ({item, onPress}) => {
 MovieCard.propTypes = {
   item: PropTypes.shape({
     id: PropTypes.string.isRequired,
-    image: PropTypes.string.isRequired,
+    image: PropTypes.string,
     title: PropTypes.string.isRequired,
     year: PropTypes.string,
     imDbRating: PropTypes.string,
@@ -45,10 +45,11 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'flex-start',
     marginTop: 27,
-    marginLeft: 16,
+    // backgroundColor: 'red',
+    marginLeft: 8,
   },
   movieCardThumbnail: {
-    width: 164,
+    width: 170,
     height: 250,
   },
   movieTitleStyle: {
