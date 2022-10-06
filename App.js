@@ -3,13 +3,13 @@ import {Provider} from 'react-redux';
 import {NavigationContainer} from '@react-navigation/native';
 import {store} from './src/redux/store';
 
-import MainStackNavigation from './src/navigation/MainStack';
+import TabNavigator from './src/navigation/TabNavigator';
 
 const App = () => {
   return (
     <Provider store={store}>
       <NavigationContainer>
-        <MainStackNavigation />
+        <TabNavigator />
       </NavigationContainer>
     </Provider>
   );
