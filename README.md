@@ -7,7 +7,7 @@
 
 This is a react native mobile application. This app code is pre-loaded with some basic libraries and basic app architecture.
 
-App list down the list move data using using open api service - https://imdb-api.com/api/
+App list down the list movie data using using open api service - https://imdb-api.com/api/
 <br></br>
 
 ## How to Use
@@ -44,7 +44,7 @@ yarn run ios
 
 ## App Features:
 
-- Main Screen - move list view with bottom navigation
+- Main Screen - movie list view with bottom navigation
 - Title Screen - movie detail info with crew list
 - Search Screen - search movie info
   <br></br>
