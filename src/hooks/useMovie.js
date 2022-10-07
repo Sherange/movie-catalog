@@ -17,9 +17,8 @@ const useMovie = () => {
         baseUrl + endPoints.popularMovies + apiKey,
         {headers: {Accept: 'application/json'}},
       );
-
       if (responce && responce.status === 200) {
-        dispatch(setPopularList(responce.data.items.slice(0, 10)));
+        dispatch(setPopularList(responce.data.items));
       }
     } catch (error) {
       console.log('error', error);

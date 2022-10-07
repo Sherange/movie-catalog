@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useState} from 'react';
 import {
   SafeAreaView,
   StatusBar,
@@ -12,21 +12,22 @@ import {Input} from '@rneui/themed';
 import {useSelector} from 'react-redux';
 import AppButton from '../components/AppButton';
 import {backgroundColor, primaryTextColor} from '../constants/theme';
-import useMovie from '../hooks/useMovie';
+import useSearch from '../hooks/useSearch';
 import SearchCard from '../components/SearchCard';
 
 const SearchScreen = ({navigation, route}) => {
   const isDarkMode = useColorScheme() === 'dark';
 
-  const {fetchPopularMovies} = useMovie();
+  const [searchParam, setSearchParam] = useState('');
 
-  useEffect(() => {
-    fetchPopularMovies();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const {searchMovies} = useSearch();
+
+  const handleSubmit = () => {
+    searchMovies(searchParam);
+  };
 
   //get state from redux-store
-  const {popularList} = useSelector(state => state.movies);
+  const {searchResult} = useSelector(state => state.movies);
 
   const renderItem = ({item}) => {
     return (
@@ -45,10 +46,15 @@ const SearchScreen = ({navigation, route}) => {
       />
       <View style={styles.scrollViewStyle} bounces={false}>
         <Text style={styles.screnTitleStyle}>Search Screen</Text>
-        <Input placeholder="Search title, ex lost 2004" />
-        <AppButton />
+        <Input
+          placeholder="Search title, ex lost 2004"
+          onChangeText={setSearchParam}
+          value={searchParam}
+          style={{color: primaryTextColor}}
+        />
+        <AppButton onPress={handleSubmit} />
         <FlatList
-          data={popularList}
+          data={searchResult}
           renderItem={renderItem}
           keyExtractor={item => item.id}
           // extraData={selectedId}
