@@ -1,32 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Image, Text, StyleSheet, View, TouchableOpacity} from 'react-native';
-import {AirbnbRating} from '@rneui/themed';
 import {primaryTextColor, secondryColor} from '../constants/theme';
 
 const SearchCard = ({item, onPress}) => {
   return (
     <TouchableOpacity onPress={onPress}>
       <View style={styles.movieCardStyle}>
-        <Image
-          style={styles.movieCardThumbnail}
-          source={{uri: item.image}}
-          resizeMode={'contain'}
-        />
-        <View style={{flex: 1, flexDirection: 'column', marginLeft: 8}}>
-          <AirbnbRating
-            count={5}
-            defaultRating={parseInt(item.imDbRating, 10) / 2}
-            isDisabled={true}
-            reviews={[]}
-            showRating={false}
-            size={14}
-            ratingContainerStyle={styles.ratingContainerStyle}
-          />
+        <Image style={styles.movieCardThumbnail} source={{uri: item.image}} />
+        <View style={styles.contentContainer}>
           <Text style={styles.movieTitleStyle}>{item.title}</Text>
-          <Text style={styles.movieSubtitleStyle}>
-            {item.year} | {item.imDbRating}
-          </Text>
+          <Text style={styles.movieSubtitleStyle}>{item.resultType}</Text>
+          <Text style={styles.movieSubtitleStyle}>{item.description}</Text>
         </View>
       </View>
     </TouchableOpacity>
@@ -37,9 +22,9 @@ SearchCard.propTypes = {
   item: PropTypes.shape({
     id: PropTypes.string.isRequired,
     image: PropTypes.string,
-    title: PropTypes.string.isRequired,
-    year: PropTypes.string,
-    imDbRating: PropTypes.string,
+    resultType: PropTypes.string,
+    title: PropTypes.string,
+    description: PropTypes.string,
   }),
   onPress: PropTypes.func.isRequired,
 };
@@ -53,17 +38,18 @@ const styles = StyleSheet.create({
   },
   movieCardThumbnail: {
     // borderRadius: 16,
-    width: 170,
-    height: 250,
+    width: 100,
+    height: 150,
+    backgroundColor: 'red',
   },
   movieTitleStyle: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: '600',
     color: primaryTextColor,
     marginTop: 7,
   },
   movieSubtitleStyle: {
-    fontSize: 12,
+    fontSize: 16,
     fontWeight: '600',
     color: secondryColor,
     marginTop: 4,
@@ -71,6 +57,12 @@ const styles = StyleSheet.create({
   ratingContainerStyle: {
     alignItems: 'flex-start',
     marginTop: 16,
+  },
+  contentContainer: {
+    flex: 1,
+    flexDirection: 'column',
+    marginLeft: 16,
+    justifyContent: 'center',
   },
 });
 
